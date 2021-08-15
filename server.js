@@ -43,7 +43,7 @@ viewDep = () => {
     const sql = `SELECT * FROM department`;
     db.query(sql, (err, res) => {
         if (err) throw err;
-        console.log('Viewing all departmenrs');
+        console.log('Now viewing all departmenrs');
         console.table(res);
         questPrompt();
     })
@@ -54,7 +54,7 @@ viewRoles = () => {
     const sql = `SELECT * FROM roles`
     db.query(sql, (err, res) => {
         if (err) throw err;
-        console.log('Viewing all roles');
+        console.log('Now viewing all roles');
         console.table(res);
         questPrompt();
     })
@@ -62,10 +62,10 @@ viewRoles = () => {
 
 // View all employee
  viewEmp = () => {
-     const sql = `SELECT * FROM employee`;
+    const sql = `SELECT * FROM employee`;
     db.query(sql, (err, res) => {
         if (err) throw err;
-        console.log('Viewing employees');
+        console.log('Now viewing employees');
         console.table(res);
         questPrompt();
     });
@@ -122,9 +122,9 @@ async function addRole() {
         title: userRole.title,                     
         salary: userRole.salary,
         dept_id: deptId[0][0].id
-
     });
-    console.log(`${userRole.title} was successfully added to Roles!`)
+
+    console.log(`${userRole.title} was successfully added`)
     questPrompt();
 };
 
@@ -167,7 +167,7 @@ async function addEmp () {
         role_id: empRoleID[0][0].id,
         manager_id: newEmployee.managerId
     })
-    console.log(`${newEmployee.firstName} + ${newEmployee.lastName} was successfully added to Employees!`)
+    console.log(`${newEmployee.firstName} + ${newEmployee.lastName} was successfully added`)
     questPrompt();
 };
 
@@ -181,13 +181,13 @@ updateEmp = () => {
         },
         {
           type: "input",
-          message: "What do you want to update to?",
+          message: "Which role do you want to update to?",
           name: "updateRole"
         }
       ])
       .then(data => {
-          const sql = `UPDATE EMPLOYEE ET role_id=? WHERE first_name= (?)`;
-          db.query(sql, [data.emUp, data.updateRole], (err, res) => {
+          const sql = `UPDATE EMPLOYEE SET role_id=? WHERE first_name= ?`;
+          db.query(sql, [data.updateRole, data.emUp], (err, res) => {
               if (err) throw err;
               console.table(res);
               questPrompt();
