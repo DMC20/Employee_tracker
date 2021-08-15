@@ -3,44 +3,45 @@ const inquirer = require('inquirer');
 const db = require('./db/connection');
 
 // Question prompt
-function questPrompt () {
-    return inquirer.prompt ([
+ questPrompt = () => {
+    inquirer.prompt ([
         {
             type: 'list',
-            name: 'selection',
+            name: 'select',
             message: 'Welcome, what would you like to do?',
             choices: ['View all departments','View all roles', 'View employees', 
                       'Add department', 'Add a role', 'Add an employee', 'Update an employee']
         }
     ])
     .then((choice) => {
-        if (choice.selection === 'View all departments') {
+        if (choice.select === 'View all departments') {
             viewDep();
 } 
-         if (choice.selection === 'View all roles') {
+         if (choice.select === 'View all roles') {
             viewRoles();
         } 
-         if (choice.selection === 'View employees') {
+         if (choice.select === 'View employees') {
             viewEmp();
         } 
-         if (choice.selection === 'Add department') {
+         if (choice.select === 'Add department') {
             addDep();
         } 
-         if (choice.selection === 'Add a role') {
+         if (choice.select === 'Add a role') {
             addRole();
         } 
-         if (choice.selection === 'Add an employee') {
+         if (choice.select === 'Add an employee') {
             addEmp();
         } 
-         if (choice.selection === 'Update an employee') {
+         if (choice.select === 'Update an employee') {
             updateEmp();
-        };
+        }
     })
 };
 
 // View Dept
 viewDep = () => { 
-    db.query(`SELECT * FROM department`, (err, res) => {
+    const sql = `SELECT * FROM department`;
+    db.query(sql, (err, res) => {
         if (err) throw err;
         console.log('Viewing all departmenrs');
         console.table(res);
@@ -50,7 +51,8 @@ viewDep = () => {
 
 // View all roles 
 viewRoles = () => {
-    db.query(`SELECT * FROM roles`, (err, res) => {
+    const sql = `SELECT * FROM roles`
+    db.query(sql, (err, res) => {
         if (err) throw err;
         console.log('Viewing all roles');
         console.table(res);
@@ -60,7 +62,8 @@ viewRoles = () => {
 
 // View all employee
  viewEmp = () => {
-    db.query(`SELECT * FROM employee`, (err, res) => {
+     const sql = `SELECT * FROM employee`;
+    db.query(sql, (err, res) => {
         if (err) throw err;
         console.log('Viewing employees');
         console.table(res);
@@ -170,6 +173,27 @@ async function addEmp () {
 
 // Update role 
 updateEmp = () => {
+    inquirer.prompt([
+        {
+          type: "input",
+          message: "Which employee would you like to update?",
+          name: "emUp"
+        },
+        {
+          type: "input",
+          message: "What do you want to update to?",
+          name: "updateRole"
+        }
+      ])
+      .then(data => {
+          const sql = `UPDATE EMPLOYEE ET role_id=? WHERE first_name= (?)`;
+          db.query(sql, [data.emUp, data.updateRole], (err, res) => {
+              if (err) throw err;
+              console.table(res);
+              questPrompt();
+          })
+      })
+  };
 
-}
 questPrompt();
+
