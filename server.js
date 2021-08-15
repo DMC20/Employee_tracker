@@ -186,7 +186,7 @@ updateEmp = () => {
         }
       ])
       .then(data => {
-          const sql = `UPDATE EMPLOYEE SET role_id=? WHERE first_name= ?`;
+          const sql = `UPDATE employee SET role_id=? WHERE first_name= ?`;
           db.query(sql, [data.updateRole, data.emUp], (err, res) => {
               if (err) throw err;
               console.table(res);
