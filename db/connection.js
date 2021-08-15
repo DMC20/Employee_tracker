@@ -8,6 +8,6 @@ const db = mysql.createConnection(
         password: 'Password',
         database: 'business'
     }
-)
+);
 
 module.exports = db;
