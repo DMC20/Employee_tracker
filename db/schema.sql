@@ -24,3 +24,5 @@ CREATE TABLE employee (
     manager_id INTEGER,
     CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL
 );
+
+--12 10 5 9 40 
