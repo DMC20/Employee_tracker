@@ -173,7 +173,7 @@ const addEmp = async () => {
 };
 
 // Update role
-updateEmp = () => {
+const updateEmp = () => {
   inquirer
     .prompt([
       {
